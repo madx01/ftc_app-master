@@ -46,6 +46,7 @@ public class SimpleMove extends LinearOpMode {
 
     // Declare OpMode members.
 
+
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor dc_motor_left = null;
     private DcMotor dc_motor_right = null;
@@ -61,10 +62,10 @@ public class SimpleMove extends LinearOpMode {
         dc_motor_left.setDirection(DcMotor.Direction.REVERSE);
         dc_motor_right.setDirection(DcMotor.Direction.FORWARD);
 
-        double drive =0;
+        double power=0;
+        double turn=0;
         double leftpower=0;
-        double righttpower=0;
-        double turn =0;
+        double rightpower=0;
 
 
         waitForStart();
@@ -72,20 +73,27 @@ public class SimpleMove extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-
-
-            drive = -gamepad1.right_stick_y;
-            turn = gamepad1.right_stick_x;
-
-            leftpower=Range.clip(drive+turn,-1,1);
-            righttpower=Range.clip(drive-turn,-1,1);
+            power=Math.min(Math.abs(-gamepad1.right_stick_y),power+(-gamepad1.right_stick_y*0.05));
+            if (power<-0.5)
+            {
+                power=-0.5;
+            }
+            if (gamepad1.right_stick_y>-0.15 && gamepad1.right_stick_y<0.15) {
+                power=0;
+            }
+            turn = gamepad1.right_stick_x*0.3;
+            if (gamepad1.right_stick_x>-0.1 && gamepad1.right_stick_x<0.1) {
+                turn=0;
+            }
+            leftpower=Range.clip(power+turn,-1,1);
+            rightpower=Range.clip(power-turn,-1,1);
 
             dc_motor_left.setPower(leftpower);
-            dc_motor_right.setPower(righttpower);
+            dc_motor_right.setPower(rightpower);
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Status", "Left Motor: " + leftpower);
-            telemetry.addData("Status", "Right Motor: " + righttpower);
+            telemetry.addData("Status", "Right Motor: " + rightpower);
             telemetry.update();
         }
     }
