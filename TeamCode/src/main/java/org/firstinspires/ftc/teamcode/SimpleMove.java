@@ -73,18 +73,17 @@ public class SimpleMove extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            power=Math.min(Math.abs(-gamepad1.right_stick_y),power+(-gamepad1.right_stick_y*0.05));
-            if (power<-0.5)
-            {
-                power=-0.5;
-            }
+            power+=gamepad1.right_stick_y*0.05;
+            power= Range.clip(power,-1,1);
+            turn = gamepad1.right_stick_x*0.5;
+
             if (gamepad1.right_stick_y>-0.15 && gamepad1.right_stick_y<0.15) {
                 power=0;
             }
-            turn = gamepad1.right_stick_x*0.3;
-            if (gamepad1.right_stick_x>-0.1 && gamepad1.right_stick_x<0.1) {
+            if (gamepad1.right_stick_x>-0.15 && gamepad1.right_stick_x<0.15) {
                 turn=0;
             }
+
             leftpower=Range.clip(power+turn,-1,1);
             rightpower=Range.clip(power-turn,-1,1);
 
