@@ -44,12 +44,50 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class SimpleMove extends LinearOpMode {
 
-    // Declare OpMode members.
+    //variabiles
 
-
+    private double power=0;
+    private double rpower=0;
+    private double turn=0;
+    private double leftpower=0;
+    private double rightpower=0;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor dc_motor_left = null;
     private DcMotor dc_motor_right = null;
+
+    //functions
+
+
+    public void Moving()
+    {
+
+        rpower=gamepad1.right_stick_y;
+        power+=rpower*0.05;
+        power= Range.clip(power,-1,1);
+        turn = gamepad1.right_stick_x*0.5;
+
+        if (rpower>-0.15 && rpower<0.15) {
+            power=0;
+        }
+        if (gamepad1.right_stick_x>-0.15 && gamepad1.right_stick_x<0.15) {
+            turn=0;
+        }
+
+        if (power>0 && rpower<power)
+        {
+            power=rpower;
+        }
+        if (power<0 && rpower>power)
+        {
+            power=rpower;
+        }
+
+        leftpower=Range.clip(power+turn,-1,1);
+        rightpower=Range.clip(power-turn,-1,1);
+
+        dc_motor_left.setPower(leftpower);
+        dc_motor_right.setPower(rightpower);
+    }
 
     @Override
     public void runOpMode() {
@@ -62,33 +100,12 @@ public class SimpleMove extends LinearOpMode {
         dc_motor_left.setDirection(DcMotor.Direction.REVERSE);
         dc_motor_right.setDirection(DcMotor.Direction.FORWARD);
 
-        double power=0;
-        double turn=0;
-        double leftpower=0;
-        double rightpower=0;
-
-
         waitForStart();
         runtime.reset();
 
         while (opModeIsActive()) {
 
-            power+=gamepad1.right_stick_y*0.05;
-            power= Range.clip(power,-1,1);
-            turn = gamepad1.right_stick_x*0.5;
-
-            if (gamepad1.right_stick_y>-0.15 && gamepad1.right_stick_y<0.15) {
-                power=0;
-            }
-            if (gamepad1.right_stick_x>-0.15 && gamepad1.right_stick_x<0.15) {
-                turn=0;
-            }
-
-            leftpower=Range.clip(power+turn,-1,1);
-            rightpower=Range.clip(power-turn,-1,1);
-
-            dc_motor_left.setPower(leftpower);
-            dc_motor_right.setPower(rightpower);
+            Moving();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Status", "Left Motor: " + leftpower);
