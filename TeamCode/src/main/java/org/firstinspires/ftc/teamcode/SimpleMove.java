@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="Basic: Simple Move", group="Linear Opmode")
-//@Disabled
+
 public class SimpleMove extends LinearOpMode {
 
     //variabiles
@@ -57,19 +57,19 @@ public class SimpleMove extends LinearOpMode {
 
     //functions
 
-
     public void Moving()
     {
 
-        rpower=gamepad1.right_stick_y;
+        rpower=-gamepad1.right_stick_y;
         power+=rpower*0.05;
         power= Range.clip(power,-1,1);
-        turn = gamepad1.right_stick_x*0.5;
+        turn = gamepad1.right_stick_x;
 
         if (rpower>-0.15 && rpower<0.15) {
             power=0;
+            turn*=0.5;
         }
-        if (gamepad1.right_stick_x>-0.15 && gamepad1.right_stick_x<0.15) {
+        if (turn>-0.15 && turn<0.15) {
             turn=0;
         }
 
@@ -82,8 +82,7 @@ public class SimpleMove extends LinearOpMode {
             power=rpower;
         }
 
-        leftpower=Range.clip(power+turn,-1,1);
-        rightpower=Range.clip(power-turn,-1,1);
+
 
         dc_motor_left.setPower(leftpower);
         dc_motor_right.setPower(rightpower);
