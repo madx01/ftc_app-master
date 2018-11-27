@@ -65,13 +65,14 @@ public class SimpleMove extends LinearOpMode {
         power= Range.clip(power,-1,1);
         turn = gamepad1.right_stick_x;
 
-        if (rpower>-0.15 && rpower<0.15) {
-            power=0;
-            turn*=0.5;
-        }
         if (turn>-0.15 && turn<0.15) {
             turn=0;
         }
+        if (rpower>-0.15 && rpower<0.15) {
+            power=0;
+            //turn*=0.5;
+        }
+
 
         if (power>0 && rpower<power)
         {
