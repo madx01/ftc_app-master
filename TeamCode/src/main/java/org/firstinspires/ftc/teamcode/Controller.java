@@ -43,7 +43,7 @@ public class Controller extends LinearOpMode
         while (opModeIsActive())
         {
             movTurn(gamepad1.left_stick_x, gamepad1.left_stick_y);
-            LiftUp(gamepad1.a,gamepad1.b);
+            //LiftUp(gamepad1.a,gamepad1.b);
         }
     }
 
@@ -64,12 +64,18 @@ public class Controller extends LinearOpMode
             {
                 leftMotor.setPower(smallPower * (stickY / Math.abs(stickY)));
                 rightMotor.setPower(smallPower * (stickY / Math.abs(stickY)));
+                //test
+                lliftMotor.setPower(smallPower * (stickY / Math.abs(stickY)));
+                rliftMotor.setPower(smallPower * (stickY / Math.abs(stickY)));
             }
             // Fast moving
             else
             {
                 leftMotor.setPower(bigPower * (stickY / Math.abs(stickY)));
                 rightMotor.setPower(bigPower * (stickY / Math.abs(stickY)));
+                //test
+                lliftMotor.setPower(bigPower * (stickY / Math.abs(stickY)));
+                rliftMotor.setPower(bigPower * (stickY / Math.abs(stickY)));
             }
         }
 
@@ -81,12 +87,18 @@ public class Controller extends LinearOpMode
             {
                 leftMotor.setPower(-smallPower * (stickX / Math.abs(stickX)));
                 rightMotor.setPower(smallPower * (stickX / Math.abs(stickX)));
+                //test
+                lliftMotor.setPower(-smallPower * (stickX / Math.abs(stickX)));
+                rliftMotor.setPower(smallPower * (stickX / Math.abs(stickX)));
             }
             // Fast turning
             else
             {
-                leftMotor.setPower(-bigPower * (stickX / Math.abs(stickX)));
                 rightMotor.setPower(bigPower * (stickX / Math.abs(stickX)));
+                leftMotor.setPower(-bigPower * (stickX / Math.abs(stickX)));
+                //test
+                rliftMotor.setPower(bigPower * (stickX / Math.abs(stickX)));
+                lliftMotor.setPower(-bigPower * (stickX / Math.abs(stickX)));
             }
         }
 
@@ -95,6 +107,9 @@ public class Controller extends LinearOpMode
         {
             leftMotor.setPower(0);
             rightMotor.setPower(0);
+            //test
+            rliftMotor.setPower(0);
+            lliftMotor.setPower(0);
         }
     }
 
